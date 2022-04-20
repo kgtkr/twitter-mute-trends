@@ -1,0 +1,31 @@
+{
+  "name": "twitter-mute-trends",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/app.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kgtkr/twitter-mute-trends.git"
+  },
+  "author": "kgtkr",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kgtkr/twitter-mute-trends/issues"
+  },
+  "homepage": "https://github.com/kgtkr/twitter-mute-trends#readme",
+  "devDependencies": {
+    "@types/node": "^17.0.25",
+    "@types/twit": "^2.2.30",
+    "typescript": "^4.6.3"
+  },
+  "dependencies": {
+    "axios": "^0.24.0",
+    "axios-oauth-1.0a": "^0.3.4",
+    "twit": "^2.2.11",
+    "zod": "^3.14.4"
+  }
+}
