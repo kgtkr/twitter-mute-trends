@@ -9,6 +9,7 @@ const Env = z.object({
   ACCESS_TOKEN_SECRET: z.string(),
   NEGATIVE_THRESHOLD: z.preprocess(Number, z.number().int()).default(80),
   WOEID: z.string(),
+  MUTE_DURATION_DAY: z.preprocess(Number, z.number().int()).default(30),
 });
 
 const env = Env.parse(process.env);
@@ -88,7 +89,7 @@ const MutesResult = z.object({
           keyword: trend,
           mute_surfaces: "notifications,home_timeline,tweet_replies",
           mute_options: "",
-          duration: "2592000000",
+          duration: String(env.MUTE_DURATION_DAY * 24 * 60 * 60 * 1000),
         } as any);
         console.log(`muted ${trend}`);
       }

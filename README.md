@@ -14,3 +14,4 @@ $ npm start
 * `CONSUMER_KEY` / `CONSUMER_SECRET` / `ACCESS_TOKEN` / `ACCESS_TOKEN_SECRET`:  認証情報
 * `WOEID`: トレンドの地域ID(日本は `23424856`)
 * `NEGATIVE_THRESHOLD`: ネガティブツイート割合の閾値。デフォルト80
+* `MUTE_DURATION_DAY`: ミュート期間(日)。デフォルト30
