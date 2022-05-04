@@ -10,6 +10,7 @@ const Env = z.object({
   NEGATIVE_THRESHOLD: z.preprocess(Number, z.number().int()).default(80),
   WOEID: z.string(),
   MUTE_DURATION_DAY: z.preprocess(Number, z.number().int()).default(30),
+  MAX_RETAIN: z.preprocess(Number, z.number().int()).default(200),
 });
 
 const env = Env.parse(process.env);
@@ -42,6 +43,7 @@ const TransitionResult = z.object({
 const MutesResult = z.object({
   muted_keywords: z.array(
     z.object({
+      id: z.string(),
       keyword: z.string(),
       valid_from: z.string().nullable(),
       valid_until: z.string().nullable(),
@@ -57,6 +59,21 @@ const MutesResult = z.object({
   const mutesResult = await T.get("mutes/keywords/list").then(({ data }) =>
     MutesResult.parse(data)
   );
+
+  const deleteMutes = mutesResult.muted_keywords
+    .filter((mute) => mute.valid_until !== null)
+    .sort((a, b) => Number(a.valid_until) - Number(b.valid_until))
+    .slice(0, -env.MAX_RETAIN);
+
+  if (deleteMutes.length > 0) {
+    await T.post("mutes/keywords/destroy", {
+      ids: deleteMutes.map((mute) => mute.id).join(","),
+    } as any);
+
+    console.log(
+      `Deleted: ${deleteMutes.map((mute) => mute.keyword).join(", ")}`
+    );
+  }
 
   const now = Date.now();
   const mutes = new Set(
